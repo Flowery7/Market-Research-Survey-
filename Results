@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .user-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .user-info h2 {
+            margin-top: 0;
+        }
+        .response {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quiz Results</h1>
+        <!-- Display user information -->
+        <div class="user-info">
+            <h2>User Information</h2>
+            <p><strong>Name:</strong> <span id="userName"></span></p>
+            <p><strong>Telephone:</strong> <span id="userTelephone"></span></p>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>Address:</strong> <span id="userAddress"></span></p>
+        </div>
+    </header>
+
+    <main id="surveyResults">
+        <!-- Survey results will be displayed here -->
+    </main>
+
+    <button id="saveButton">Save Results</button>
+
+    <script>
+        // Retrieve user information from sessionStorage
+        var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+
+        // Display user information
+        if (userInfo) {
+            document.getElementById('userName').textContent = userInfo.fullName;
+            document.getElementById('userTelephone').textContent = userInfo.telephone;
+            document.getElementById('userEmail').textContent = userInfo.email;
+            document.getElementById('userAddress').textContent = userInfo.address;
+        }
+
+        // Example survey results display
+        var surveyDataPage1 = JSON.parse(sessionStorage.getItem('surveyDataPage1'));
+        var surveyDataPage2 = JSON.parse(sessionStorage.getItem('surveyDataPage2'));
+
+        var resultsContainer = document.getElementById('surveyResults');
+        if (surveyDataPage1 && surveyDataPage2) {
+            displaySurveyResults(surveyDataPage1, 1);
+            displaySurveyResults(surveyDataPage2, 2);
+        } else {
+            resultsContainer.innerHTML = '<p>No survey responses found.</p>';
+        }
+
+        function displaySurveyResults(formData, pageNumber) {
+            var responseElement = document.createElement('div');
+            responseElement.classList.add('response');
+            responseElement.innerHTML = '<h3>Page ' + pageNumber + ' Results</h3>' +
+                                        '<p><strong>Preferred Type:</strong> ' + formData.preferredType + '</p>' +
+                                        '<p><strong>Purchase Frequency:</strong> ' + formData.purchaseFrequency + '</p>' +
+                                        '<p><strong>Purchase Location:</strong> ' + formData.purchaseLocation.join(', ') + '</p>';
+
+            resultsContainer.appendChild(responseElement);
+        }
+
+        // Save button functionality
+        var saveButton = document.getElementById('saveButton');
+        saveButton.addEventListener('click', function() {
+            // Example: Convert survey data to JSON and save as text file
+            var combinedData = {
+                page1: surveyDataPage1,
+                page2: surveyDataPage2
+            };
+
+            var blob = new Blob([JSON.stringify(combinedData, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'survey_results.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    </script>
+</body>
+</html>
