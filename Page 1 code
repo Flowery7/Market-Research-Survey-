@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Quiz!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        #startQuizBtn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        #startQuizBtn:hover {
+            background-color: #0056b3;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        form input, form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        form button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Bread Market Research Questionnaire!</h1>
+        <p>We invite you to participate in our exciting bread marketing survey! Your valuable insights will help us understand what types of bread consumers prefer, from whole wheat to gluten-free options. We're curious about your purchasing habits too—how often do you buy bread, and what factors influence your decisions, like price, freshness, or nutritional content? Your responses will paint a clearer picture of how bread fits into your daily routine. 
+
+Beyond preferences and habits, we want to know your thoughts on bread's healthiness compared to other carbs. </p>
+    </header>
+    <main>
+        <form id="userInfoForm">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="telephone">Telephone:</label>
+            <input type="tel" id="telephone" name="telephone" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="4" required></textarea>
+
+            <button type="submit" id="startQuizBtn">Start Quiz</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('userInfoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect user info
+            var fullName = document.getElementById('fullName').value;
+            var telephone = document.getElementById('telephone').value;
+            var email = document.getElementById('email').value;
+            var address = document.getElementById('address').value;
+
+            // Store user info in sessionStorage
+            var userInfo = {
+                fullName: fullName,
+                telephone: telephone,
+                email: email,
+                address: address
+            };
+            sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+            // Redirect to first question page
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
